@@ -1,0 +1,13 @@
+Package: easyeffects-quickaccess
+Version: @VERSION@
+Section: utils
+Priority: optional
+Architecture: all
+Maintainer: Gergely Szabó <szaboger@example.com>
+Depends: easyeffects
+Recommends: plasma-workspace
+Description: Gyors elérésű panel-ikon az EasyEffects vezérléséhez KDE Plasma alatt
+ Az EasyEffects Quick Access egy egyszerű KDE Plasma widget (plasmoid),
+ amely bal kattintásra megnyitja az EasyEffects alkalmazást, jobb
+ kattintásra pedig felsorolja és betölthetővé teszi a mentett
+ EasyEffects profilokat, mindezt a panelről elérhetően.
