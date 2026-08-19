@@ -1,0 +1,23 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "User"
+            }
+        ],
+        "Category": "System Information",
+        "Description": "Ikon a panelen: bal klikk megnyitja az EasyEffects-et, jobb klikk felsorolja és betölti a mentett profilokat.",
+        "Icon": "easyeffects",
+        "Id": "org.kde.easyeffectsquick",
+        "License": "GPL-3.0-or-later",
+        "Name": "EasyEffects Quick Access",
+        "ServiceTypes": [
+            "Plasma/Applet"
+        ],
+        "Version": "1.0"
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-MainScript": "ui/main.qml"
+}

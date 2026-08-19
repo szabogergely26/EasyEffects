@@ -1,0 +1,17 @@
+# Ideiglenes és napló fájlok:
+*.log
+*.bak
+*.tmp
+.DS_Store
+.vscode/
+
+# Build termékek:
+build/
+dist/
+*.deb
+*.plasmoid
+
+# KDE / Plasma cache (ha véletlenül idekerülne):
+.cache/
+*.qmlc
+*.jsc
