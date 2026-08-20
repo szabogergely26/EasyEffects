@@ -1,0 +1,55 @@
+name: Build és Release .deb
+
+# Minden main branch-re történő push-nál lefut.
+# A verziószámot a metadata.json (KPlugin.Version mezője) adja - ezt
+# kézzel kell emelni build_deb.sh-hoz hasonlóan, mielőtt push-olsz,
+# különben a tag már létezik és a Release lépés hibázik (ez szándékos
+# védőháló az ismételt/hiányzó verzióemelés ellen).
+on:
+  push:
+    branches:
+      - main
+
+# A GITHUB_TOKEN-nek írási jog kell a Release létrehozásához.
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Szükséges eszközök telepítése
+        run: sudo apt-get update && sudo apt-get install -y dpkg-dev python3
+
+      - name: .deb csomag buildelése
+        run: |
+          chmod +x packaging/deb/build_deb.sh
+          ./packaging/deb/build_deb.sh
+
+      - name: Verziószám kiolvasása a metadata.json-ból
+        id: version
+        run: |
+          VERSION=$(python3 -c "import json; print(json.load(open('org.kde.easyeffectsquick/metadata.json'))['KPlugin']['Version'])")
+          echo "version=v${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: GitHub Release létrehozása a .deb-bel
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: "EasyEffects Quick Access ${{ steps.version.outputs.version }}"
+          body: |
+            Automatikusan buildelt kiadás a `main` branch-ről.
+
+            **Telepítés:**
+            ```
+            sudo dpkg -i easyeffects-quickaccess_all.deb
+            ```
+
+            > **Megjegyzés:** ez a csomag nem APT repóból érkezik, tehát
+            > `sudo apt upgrade` nem frissíti automatikusan. Új verzió
+            > esetén a `.deb`-et innen, a Release-ek közül kell újra
+            > letölteni és újratelepíteni (`dpkg -i` felülírja a régit).
+          files: dist/easyeffects-quickaccess_all.deb
